@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>كاف | KAF Specialty Coffee - المنيو الرقمي</title>
+  <style>
+    :root {
+      --bg: #0F0E0C;
+      --card-bg: #1A1815;
+      --card-border: #2A2621;
+      --text: #F5F2EB;
+      --muted: #9E9589;
+      --accent: #C89D66;
+      --accent-light: rgba(200, 157, 102, 0.15);
+      --badge-bg: #2C2218;
+    }
+
+    body.light-mode {
+      --bg: #F7F4EF;
+      --card-bg: #FFFFFF;
+      --card-border: #E6DFD5;
+      --text: #231F1C;
+      --muted: #7A7067;
+      --accent: #8C5A32;
+      --accent-light: rgba(140, 90, 50, 0.1);
+      --badge-bg: #EFE9E0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      padding-bottom: 100px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+      padding: 16px;
+    }
+
+    /* شريط الـ NFC العلوي */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .nfc-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent-light);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      background-color: var(--accent);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(0.95); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.4; }
+      100% { transform: scale(0.95); opacity: 1; }
+    }
+
+    .theme-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    /* الهيدر وهوية الكوفي */
+    .hero {
+      text-align: center;
+      padding: 24px 16px;
+      background: linear-gradient(145deg, rgba(200, 157, 102, 0.12) 0%, transparent 80%);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+
+    .brand-logo {
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .brand-sub {
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .brand-desc {
+      font-size: 0.85rem;
+      color: var(--text);
+      opacity: 0.9;
+    }
+
+    /* أزرار الأقسام التفاعلية */
+    .categories {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+      scrollbar-width: none;
+    }
+    .categories::-webkit-scrollbar { display: none; }
+
+    .cat-btn {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      color: var(--muted);
+      padding: 8px 16px;
+      border-radius: 24px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cat-btn.active {
+      background: var(--accent);
+      color: #0F0E0C;
+      border-color: var(--accent);
+    }
+
+    /* كروت الأصناف */
+    .menu-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .menu-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .item-info {
+      flex: 1;
+    }
+
+    .item-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .item-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .tag {
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      border-radius: 10px;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .item-desc {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .item-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .price {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .calories {
+      font-size: 0.72rem;
+      color: var(--muted);
+      background: var(--badge-bg);
+      padding: 2px 8px;
+      border-radius: 8px;
+    }
+
+    /* زر الإضافة التفاعلي */
+    .add-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .item-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background: var(--badge-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+    }
+
+    .add-btn {
+      background: var(--accent-light);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      width: 56px;
+      padding: 4px 0;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .add-btn:active {
+      transform: scale(0.92);
+    }
+
+    /* شريط ملخص الطلب السفلي */
+    .order-bar {
+      position: fixed;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 32px);
+      max-width: 448px;
+      background: var(--accent);
+      color: #0F0E0C;
+      padding: 14px 18px;
+      border-radius: 16px;
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      z-index: 100;
+      font-weight: 700;
+    }
+
+    .clear-btn {
+      background: rgba(0,0,0,0.15);
+      border: none;
+      color: #0F0E0C;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 32px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- الشريط العلوي -->
+    <div class="top-bar">
+      <div class="nfc-pill">
+        <span class="pulse-dot"></span>
+        <span>متصل عبر NFC • المنيو التفاعلي</span>
+      </div>
+      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">☀️ وضع نهاري</button>
+    </div>
+
+    <!-- الهوية الترحيبية -->
+    <div class="hero">
+      <div class="brand-logo">كـاف | KAF</div>
+      <div class="brand-sub">Specialty Coffee Roasters</div>
+      <p class="brand-desc">محاصيل قهوة مختصة تُحضر بشغف، ومخبوزات طازجة يومياً</p>
+    </div>
+
+    <!-- تصنيفات المنيو -->
+    <div class="categories">
+      <button class="cat-btn active" onclick="filterMenu('all', this)">الكل</button>
+      <button class="cat-btn" onclick="filterMenu('hot', this)">☕ القهوة الحارة</button>
+      <button class="cat-btn" onclick="filterMenu('cold', this)">🧊 القهوة الباردة</button>
+      <button class="cat-btn" onclick="filterMenu('signature', this)">✨ الماتشا والسيجنتشر</button>
+      <button class="cat-btn" onclick="filterMenu('sweets', this)">🥐 الحلويات والمخبوزات</button>
+    </div>
+
+    <!-- قائمة الأصناف -->
+    <div class="menu-grid" id="menuGrid">
+      
+      <!-- القهوة الحارة -->
+      <div class="menu-card" data-category="hot">
+        <div class="item-info">
+          <div class="item-header">
+            <span class="item-title">قهوة مقطرة V60</span>
+            <span class="tag">محصول فاخر</span>
+          </div>
+          <p class="item-desc">تُحضر يدوياً من محاصيل فردية المصدر (إثيوبي شلشلي بإيحاءات الفواكه والياسمين).</p>
+          <div class="item-meta">
+            <span class="price">19 ر.س</span>
+            <span class="calories">5 سعرات</span>
+          </div>
+        </div>
+        <div class="add-controls">
+          <div class="item-icon">🫖</div>
+          <button class="add-btn" onclick="addItem(19)">+ أضف</button>
+        </div>
+      </div>
+
+      <div class="menu-card" data-category="hot">
+        <div class="item-info">
+          <div class="item-header">
+            <span class="item-title">فلات وايت</span>
+          </div>
+          <p class="item-desc">دبل شوت إسبريسو غني مع طبقة حليب مبخر ناعمة ومخملية.</p>
+          <div class="item-meta">
+            <span class="price">17 ر.س</span>
+            <span class="calories">110 سعرة</span>
+          </div>
+        </div>
+        <div class="add-controls">
+          <div class="item-icon">☕</div>
+          <button class="add-btn" onclick="addItem(17)">+ أضف</button>
+        </div>
+      </div>
+
+      <div class="menu-card" data-category="hot">
+        <div class="item-info">
+          <div class="item-header">
+            <span class="item-title">كورتادو</span>
+          </div>
+          <p class="item-desc">توازن مثالي بين الإسبريسو المركز والحليب الدافئ بكميات متساوية.</p>
+          <div class="item-meta">
+            <span class="price">16 ر.س</span>
+            <span class="calories">75 سعرة</span>
+          </div>
+        </div>
+        <div class="add-controls">
+          <div class="item-icon">🥃</div>
+          <button class="add-btn" onclick="addItem(16)">+ أضف</button>
+        </div>
+      </div>
+
+      <!-- القهوة الباردة -->
+      <div class="menu-card" data-category="cold">
+        <div class="item-info">
+          <div class="item-header">
+            <span class="item-title">آيس دريب (V60 بارد)</span>
+            <span class="tag">الأكثر طلباً</span>
+          </div>
+          <p class="item-desc">قهوة مقطرة مبردة على الثلج تبرز حلاوة المحصول وانتعاشه.</p>
+          <div class="item-meta">
+            <span class="price">20 ر.س</span>
+            <span class="calories">5 سعرات</span>
+          </div>
+        </div>
+        <div class="add-controls">
+          <div class="item-icon">🧊</div>
+          <button class="add-btn" onclick="addItem(20)">+ أضف</button>
+        </div>
+      </div>
+
+      <div class="menu-card" data-category="cold">
+        <div class="item-info">
+          <div class="item-header">
+            <span class="item-title">آيس سبانش لاتيه</span>
+          </div>
+          <p class="item-desc">مزيج الإسبريسو البارد مع الحليب الطازج وخلطة الحليب المكثف الخاصة.</p>
+          <div class="item-meta">
+            <span class="price">22 ر.س</span>
+            <span class="calories">240 سعرة</span>
+          </div>
+        </div>
+        <div class="add-controls">
+          <div class="item-icon">🥤</div>
+          <button class="add-btn" onclick="addItem(22)">+ أضف</button>
+        </div>
+      </div>
+
+      <!-- السيجنتشر والماتشا -->
+      <div class="menu-card" data-category="signature">
+        <div class="item-info">
+          <div class="item-header">
+            <span class="item-title">آيس ماتشا لاتيه</span>
+            <span class="tag">ماتشا يابانية</span>
+          </div>
+          <p class="item-desc">ماتشا احتفالية عضوية مخفوقة مع الحليب البارد ولمسة فانيليا طبيعية.</p>
+          <div class="item-meta">
+            <span class="price">24 ر.س</span>
+            <span class="calories">150 سعرة</span>
+          </div>
+        </div>
+        <div class="add-controls">
+          <div class="item-icon">🍵</div>
+          <button class="add-btn" onclick="addItem(24)">+ أضف</button>
+        </div>
+      </div>
+
+      <div class="menu-card" data-category="signature">
+        <div class="item-info">
+          <div class="item-header">
+            <span class="item-title">كاف بيستاشيو لاتيه</span>
+            <span class="tag">توقيعنا الخاص</span>
+          </div>
+          <p class="item-desc">إسبريسو ممزوج بصوص الفستق الإيطالي الطبيعي مع طبقة فستق مقرمشة.</p>
+          <div class="item-meta">
+            <span class="price">25 ر.س</span>
+            <span class="calories">280 سعرة</span>
+          </div>
+        </div>
+        <div class="add-controls">
+          <div class="item-icon">✨</div>
+          <button class="add-btn" onclick="addItem(25)">+ أضف</button>
+        </div>
+      </div>
+
+      <!-- الحلويات والمخبوزات -->
+      <div class="menu-card" data-category="sweets">
+        <div class="item-info">
+          <div class="item-header">
+            <span class="item-title">سان سيباستيان تشيزكيك</span>
+            <span class="tag">يُقدم مع شوكلت</span>
+          </div>
+          <p class="item-desc">تشيزكيك مخبوز على الطريقة الإسبانية بقوام كريمي يذوب مع صوص الشوكولاتة البلجيكية الدافئ.</p>
+          <div class="item-meta">
+            <span class="price">27 ر.س</span>
+            <span class="calories">450 سعرة</span>
+          </div>
+        </div>
+        <div class="add-controls">
+          <div class="item-icon">🍰</div>
+          <button class="add-btn" onclick="addItem(27)">+ أضف</button>
+        </div>
+      </div>
+
+      <div class="menu-card" data-category="sweets">
+        <div class="item-info">
+          <div class="item-header">
+            <span class="item-title">كرواسون اللوز والزبدة</span>
+          </div>
+          <p class="item-desc">مخبوز طازجاً برقائق الزبدة الفرنسية ومحشو بكريمة اللوز المحمص.</p>
+          <div class="item-meta">
+            <span class="price">18 ر.س</span>
+            <span class="calories">360 سعرة</span>
+          </div>
+        </div>
+        <div class="add-controls">
+          <div class="item-icon">🥐</div>
+          <button class="add-btn" onclick="addItem(18)">+ أضف</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer">
+      الأسعار شاملة ضريبة القيمة المضافة 15%<br>
+      POWERED BY SMART NFC MENU
+    </div>
+  </div>
+
+  <!-- شريط حاسبة الاختيارات السفلي -->
+  <div class="order-bar" id="orderBar">
+    <div>
+      <span id="itemCount">0</span> أصناف مختارة • الإجمالي: <span id="totalPrice">0</span> ر.س
+    </div>
+    <button class="clear-btn" onclick="clearOrder()">إفراغ ✕</button>
+  </div>
+
+  <script>
+    // فلترة الأقسام
+    function filterMenu(category, btn) {
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const cards = document.querySelectorAll('.menu-card');
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // حاسبة الطلبات التفاعلية
+    let count = 0;
+    let total = 0;
+
+    function addItem(price) {
+      count++;
+      total += price;
+      document.getElementById('itemCount').innerText = count;
+      document.getElementById('totalPrice').innerText = total;
+      document.getElementById('orderBar').style.display = 'flex';
+    }
+
+    function clearOrder() {
+      count = 0;
+      total = 0;
+      document.getElementById('orderBar').style.display = 'none';
+    }
+
+    // تبديل الوضع الليلي والنهاري
+    function toggleTheme() {
+      document.body.classList.toggle('light-mode');
+      const btn = document.getElementById('themeBtn');
+      if (document.body.classList.contains('light-mode')) {
+        btn.innerText = '🌙 وضع داكن';
+      } else {
+        btn.innerText = '☀️ وضع نهاري';
+      }
+    }
+  </script>
+</body>
+</html>
